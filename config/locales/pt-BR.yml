@@ -1,0 +1,5 @@
+pt-BR:
+  errors:
+    messages:
+      not_authenticated: "Por favor reveja sua autorização. Atualmente, não autorizado."
+      login_unauthorized: "O e-mail ou senha estão incorretos."

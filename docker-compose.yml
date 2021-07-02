@@ -1,0 +1,50 @@
+version: '3'
+
+networks:
+  nerdev-network:
+volumes:
+  api_vendor:
+services:
+  api:
+    container_name: nerdev_api
+    networks: 
+      - nerdev-network
+    build: .
+    volumes:
+      - ${VOLUME_API}:/app
+      - api_vendor:/app/vendor/cache
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - postgre
+    env_file: .env
+    ports:
+      - 3000:3000
+    restart: always
+    command: >
+          sh -c "bundle install &&
+                bundle exec rails db:create &&
+                bundle exec rails db:migrate &&
+                bundle exec rails db:seed &&
+                rm -f tmp/pids/server.pid &&
+                RAILS_SERVE_STATIC_FILES=true bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+  postgre:
+    networks: 
+      - nerdev-network
+    image: postgres:latest
+    env_file: .env
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=1000"
+      - "-c"
+      - "shared_buffers=3GB"
+    environment:
+      TZ: "America/Sao_Paulo"
+      PGTZ: "America/Sao_Paulo"
+    volumes:
+      - ${VOLUME_POSTGRES}:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
