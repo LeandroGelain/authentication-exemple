@@ -15,7 +15,7 @@ require 'action_cable/engine'
 require 'rails/test_unit/railtie'
 require 'sprockets/railtie'
 
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -26,15 +26,15 @@ require 'cpf_cnpj'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Nerdev
+module Anki
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
     config.i18n.default_locale = :"pt-BR"
 
     config.autoload_paths << Rails.root.join('app/resources')
-    config.eager_load_paths += Dir[Rails.root.join('app', 'models', '**', '*')]
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.eager_load_paths += Dir[Rails.root.join('app/models/**/*')]
+    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -45,8 +45,8 @@ module Nerdev
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths << "#{Rails.root}/lib" 
+    config.autoload_paths += %W[#{config.root}/lib]
+    config.autoload_paths << "#{Rails.root.join('lib')}"
     config.exceptions_app = routes
   end
 end

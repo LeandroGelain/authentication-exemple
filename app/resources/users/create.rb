@@ -15,8 +15,8 @@ class Users::Create
 
   def can_create_user?
     raise_error('CPF inválido', 422) unless valid_cpf?
-
     raise_error('Email já está em uso.', 422) if User.find_by(email: params[:email]).present?
+    raise_error('Senha é difenrente da sua confirmção.', 422) unless params[:password] == params[:password_confirmation]
 
     true
   end
@@ -28,9 +28,7 @@ class Users::Create
   end
 
   def create_user
-    user = User.new(params)
-
-    user.save!
+    User.create!(params.except(:password_confirmation))
   end
 
   def params_devise_skip

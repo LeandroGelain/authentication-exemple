@@ -5,6 +5,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and, :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :validatable
 
+  has_many :cards
+
   TOKEN_KEY = Rails.application.secrets.secret_key_base.to_s
 
   # :nocov:

@@ -7,7 +7,13 @@ Rails.application.routes.draw do
     delete 'logout', to: 'devise/sessions#destroy'
   end
   post 'users/login', to: 'authentication#authenticate'
-
   get 'users/me', to: 'users#me'
   post 'users/', to: 'users#create'
+
+  # Cards
+  get 'cards/', to: 'cards#index'
+  post 'cards/', to: 'cards#create'
+  patch 'cards/', to: 'cards#edit'
+  delete 'cards/:id', to: 'cards#destroy'
+  post 'cards/import_image', to: 'cards#import_image'
 end
